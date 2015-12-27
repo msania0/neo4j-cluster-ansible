@@ -1,0 +1,25 @@
+---
+
+- name: Ansible Playbook for neo4j-cluster
+
+  hosts: neo4j-cluster
+
+  vars_files:
+    - vars/common.yml
+
+  roles: 
+    - neo4j
+  remote_user: pi
+  sudo: yes
+
+# - name: Ansible Playbook for load-balancer
+
+#   hosts: load-balancer
+
+#   vars_files:
+#     - vars/common.yml
+
+#   roles: 
+#     - haproxy
+#   remote_user: pi
+#   sudo: yes

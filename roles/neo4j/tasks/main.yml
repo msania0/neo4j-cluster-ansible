@@ -1,0 +1,45 @@
+- name: install oracle JDK
+  apt: name={{item}} state=installed #update_cache=yes
+  with_items:
+    - oracle-java8-jdk
+    - lsof
+
+- name: Check if downloadable archive exists
+  stat: path={{ download_dir }}/neo4j-enterprise-{{ neo4j_version }}-unix.tar.gz
+  register: archive
+
+- name: Make download dir writable for pi user
+  file: path={{ download_dir }} state=directory owner=root group=adm mode=0644
+  when: archive.stat.exists == false
+
+- name: Get neo4j binary
+  get_url: url=http://neo4j.com/artifact.php?name=neo4j-enterprise-{{ neo4j_version }}-unix.tar.gz dest={{ download_dir }} timeout=100
+  when: archive.stat.exists == false
+  tags:
+  - download
+
+- name: Check if unpacked archive exists
+  stat: path={{ install_dir }}/neo4j-enterprise-{{ neo4j_version }}
+  register: unpacked
+
+- name: Unarchive Neo4j binary
+  unarchive: copy=no src={{ download_dir }}/neo4j-enterprise-{{ neo4j_version }}-unix.tar.gz dest={{ install_dir }}
+  when: unpacked.stat.exists == false
+  tags:
+  - extract
+
+- name: Copy neo4j config templates
+  template: src=configs/{{ item }} dest={{ install_dir }}/neo4j-enterprise-{{ neo4j_version }}/conf/{{ item }}
+  with_items:
+  - neo4j-http-logging.xml
+  - neo4j-server.properties
+  - neo4j-wrapper.conf
+  - neo4j.properties
+  - arbiter-wrapper.conf
+  - jmx.access
+  - jmx.password
+
+- name: Start Neo4j
+  shell: ./neo4j start
+  args:
+    chdir: "{{ install_dir }}/neo4j-enterprise-{{ neo4j_version }}/bin"

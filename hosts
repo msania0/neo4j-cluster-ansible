@@ -1,0 +1,7 @@
+[neo4j-cluster]
+raspberrypi_2
+raspberrypi_3
+raspberrypi_4
+
+[load-balancer]
+raspberrypi_1

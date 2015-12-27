@@ -1,0 +1,5 @@
+download_dir: /opt/neo4j
+install_dir: /opt/neo4j
+
+#versions
+neo4j_version: 2.3.1
