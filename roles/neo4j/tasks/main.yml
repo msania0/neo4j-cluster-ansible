@@ -37,8 +37,17 @@
   - arbiter-wrapper.conf
   - jmx.access
   - jmx.password
+  register: config
 
-- name: Start Neo4j
-  shell: ./neo4j start
+- name: Check if Neo4j is running
+  command: "./neo4j status"
   args:
     chdir: "{{ install_dir }}/neo4j-enterprise-{{ neo4j_version }}/bin"
+  ignore_errors: yes
+  register: neo4j_status
+
+- name: Start Neo4j
+  command: ./neo4j restart
+  args:
+    chdir: "{{ install_dir }}/neo4j-enterprise-{{ neo4j_version }}/bin"
+  when: config.changed or 'is not running' in neo4j_status.stdout
