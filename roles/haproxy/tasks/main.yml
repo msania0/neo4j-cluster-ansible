@@ -1,0 +1,17 @@
+- name: install packages
+  apt: name={{item}} state=installed #update_cache=yes
+  with_items:
+    - haproxy
+
+- name: Make download dir writable for pi user
+  file: path={{ install_dir }}/haproxy/conf state=directory owner=pi group=adm mode=0774
+
+- name: Copy haproxy config templates
+  template: src=configs/{{ item }} dest={{ install_dir }}/haproxy/conf/{{ item }}
+  with_items:
+  - haproxy.cfg
+
+# - name: Start Neo4j
+#   shell: ./neo4j start
+#   args:
+#     chdir: "{{ install_dir }}/neo4j-enterprise-{{ neo4j_version }}/bin"

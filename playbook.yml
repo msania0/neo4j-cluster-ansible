@@ -13,14 +13,15 @@
   remote_user: pi
   sudo: yes
 
-# - name: Ansible Playbook for load-balancer
+- name: Ansible Playbook for load-balancer
 
-#   hosts: load-balancer
+  hosts: load-balancer
 
-#   vars_files:
-#     - vars/common.yml
+  vars_files:
+    - vars/common.yml
 
-#   roles: 
-#     - haproxy
-#   remote_user: pi
-#   sudo: yes
+  roles:
+    - bootstrap
+    - haproxy
+  remote_user: pi
+  sudo: yes
