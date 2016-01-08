@@ -8,7 +8,7 @@
   register: archive
 
 - name: Make download dir writable for pi user
-  file: path={{ download_dir }} state=directory owner=root group=adm mode=0644
+  file: path={{ download_dir }} state=directory owner=pi group=adm mode=0774
   when: archive.stat.exists == false
 
 - name: Get neo4j binary
