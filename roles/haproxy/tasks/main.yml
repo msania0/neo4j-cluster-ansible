@@ -10,8 +10,3 @@
   template: src=configs/{{ item }} dest={{ install_dir }}/haproxy/conf/{{ item }}
   with_items:
   - haproxy.cfg
-
-# - name: Start Neo4j
-#   shell: ./neo4j start
-#   args:
-#     chdir: "{{ install_dir }}/neo4j-enterprise-{{ neo4j_version }}/bin"
