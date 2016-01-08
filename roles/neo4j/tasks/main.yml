@@ -2,7 +2,6 @@
   apt: name={{item}} state=installed #update_cache=yes
   with_items:
     - oracle-java8-jdk
-    - lsof
 
 - name: Check if downloadable archive exists
   stat: path={{ download_dir }}/neo4j-enterprise-{{ neo4j_version }}-unix.tar.gz

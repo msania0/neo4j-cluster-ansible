@@ -1,0 +1,8 @@
+- name: install packages
+  apt: name={{item}} state=installed #update_cache=yes
+  with_items:
+    - lsof
+    - vim
+
+- name: Add aliasses to file
+  lineinfile: dest="/home/pi/.bashrc" line="alias ll='ls -Alh'"
