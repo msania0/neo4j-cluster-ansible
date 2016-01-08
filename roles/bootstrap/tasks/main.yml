@@ -6,3 +6,6 @@
 
 - name: Add aliasses to file
   lineinfile: dest="/home/pi/.bashrc" line="alias ll='ls -Alh'"
+
+- name: Add backports repo
+  copy: src="backports.list" dest="/etc/apt/sources.list.d/backports.list" owner=pi group=adm mode=0755

@@ -1,5 +1,5 @@
 - name: install packages
-  apt: name={{item}} state=installed #update_cache=yes
+  apt: name={{item}} state=installed default_release=jessie-backports #update_cache=yes 
   with_items:
     - haproxy
 
