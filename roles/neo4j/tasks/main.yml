@@ -1,15 +1,16 @@
 - name: install oracle JDK
+  sudo: yes
   apt: name={{item}} state=installed #update_cache=yes
   with_items:
     - oracle-java8-jdk
 
+- name: Make download dir writable for pi user
+  sudo: yes
+  file: path={{ download_dir }} state=directory owner=pi group=adm mode=0774
+
 - name: Check if downloadable archive exists
   stat: path={{ download_dir }}/neo4j-enterprise-{{ neo4j_version }}-unix.tar.gz
   register: archive
-
-- name: Make download dir writable for pi user
-  file: path={{ download_dir }} state=directory owner=pi group=adm mode=0774
-  when: archive.stat.exists == false
 
 - name: Get neo4j binary
   get_url: url=http://neo4j.com/artifact.php?name=neo4j-enterprise-{{ neo4j_version }}-unix.tar.gz dest={{ download_dir }} timeout=100
