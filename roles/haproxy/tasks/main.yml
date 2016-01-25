@@ -10,3 +10,11 @@
   template: src=configs/{{ item }} dest={{ install_dir }}/haproxy/conf/{{ item }}
   with_items:
   - haproxy.cfg
+
+- name: Get last haproxy pid
+  command: "cat /opt/neo4j/haproxy.pid"
+  ignore_errors: yes
+  register: haproxy_pid
+
+- name: Start haproxy
+  shell: /usr/sbin/haproxy -f /opt/neo4j/haproxy/conf/haproxy.cfg -p /opt/neo4j/haproxy.pid -st {{ haproxy_pid.stdout }}
