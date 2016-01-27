@@ -4,6 +4,10 @@
     - haproxy
 
 - name: Make download dir writable for pi user
+  sudo: yes
+  file: path={{ download_dir }} state=directory owner=pi group=adm mode=0774
+
+- name: Add config dir
   file: path={{ install_dir }}/haproxy/conf state=directory owner=pi group=adm mode=0774
 
 - name: Copy haproxy config templates
